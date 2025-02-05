@@ -2,7 +2,7 @@
 
 ## 1. บทนำ
 
-เมื่อท่านสมัครการใช้งานจะได้รับข้อมูลการเข้าถึง API จากเรา และท่านต้องทำการตั้งค่า Hook api callback สำหรับการแจ้งตรวจสอบสถานะการชำระเงิน
+เมื่อท่านสมัครการใช้งานจะได้รับข้อมูลการเข้าถึง API จากเรา
 
 และท่านจะได้ข้อมูลโดยมีข้อมูลดังนี้
 
@@ -43,6 +43,7 @@ URL: `/api/v1/qrcode-payments`
 
 | ชื่อพารามิเตอร์ | ประเภท | จำเป็น | อนุญาตให้ว่างได้ | คำอธิบาย |
 |---------------|------|--------|-----------------|---------|
+| `hook_url` | string | ✓ | ✗ | url สำหรับตอบกลับเมื่อชำระเงินเสร็จ |
 | `payment_type` | string | ✓ | ✗ | ประเภทของ QR Payment (`promptpay`) |
 | `amount` | integer | ✓ | ✗ | จำนวนเงินที่ต้องการชำระ (ใส่ `1` บาทขึ้นไป) |
 | `format` | string | ✓ | ✗ | รูปแบบของไฟล์ (`base64`) |
@@ -54,7 +55,7 @@ URL: `/api/v1/qrcode-payments`
 | `status` | string | ✓ | ✗ | สถานะการตรวจสอบ <br/>(`success` = สำเร็จ, `failed` = ล้มเหลว) |
 | `message` | string | ✓ | ✗ | ข้อความที่อธิบายสถานะการตรวจสอบ |
 | `data` | object | ✓ | ✗ | ข้อมูลการชำระเงิน |
-| `data.payment_id` | string | ✓ | ✗ | รหัสอ้างอิงการชำระเงิน |
+| `data.ref_id` | string | ✓ | ✗ | รหัสอ้างอิงการชำระเงิน |
 | `data.amount` | float | ✓ | ✗ | จำนวนเงินที่ชำระ |
 | `data.qrcode_base64` | string | ✓ | ✗ | ข้อมูล QR Code ในรูปแบบ Base64 |
 
@@ -63,10 +64,11 @@ URL: `/api/v1/qrcode-payments`
 ```bash
 curl -X POST https://{{SERVER_IP}}:{{SERVER_PORT}}/api/qrcode-payments \
      -H "Content-Type: application/json" \
-     -H "x-api-key: {{API_KEY}}" \
      -H "x-cust-code: {{CUST_CODE}}" \
+     -H "x-api-key: {{API_KEY}}" \
      -H "x-api-secret: {{API_SECRET}}" \
      -d '{
+       "hook_url": "https://domain.callback.net/result/pgw",
        "payment_type": "promptpay",
        "amount": 100,
        "format": "base64"
@@ -80,7 +82,7 @@ curl -X POST https://{{SERVER_IP}}:{{SERVER_PORT}}/api/qrcode-payments \
   "status": 200,
   "message": "QR Code created successfully",
   "data": {
-    "payment_id": "1234567890",
+    "ref_id": "1234567890",
     "amount": 100.25,
     "qrcode_base64": "iVBORw0KGgoAAAANSUhEUgAA..."
   }
@@ -134,8 +136,9 @@ URL: `/api/v1/qrcode-payments/{{payment_id}}`
 
 ```bash
 curl -X GET https://{{SERVER_IP}}:{{SERVER_PORT}}/api/qrcode-payments/1234567890 \
-     -H "x-api-key: {{API_KEY}}" \
+     -H "Content-Type: application/json" \
      -H "x-cust-code: {{CUST_CODE}}" \
+     -H "x-api-key: {{API_KEY}}" \
      -H "x-api-secret: {{API_SECRET}}"
 ```
 
