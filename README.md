@@ -64,7 +64,7 @@ URL: `/api/v1/qrcode-payments`
 #### ตัวอย่างการใช้งาน API สำหรับการสร้าง QR Payment
 
 ```bash
-curl -X POST https://{{SERVER_IP}}:{{SERVER_PORT}}/api/qrcode-payments \
+curl -X POST https://{{SERVER_IP}}:{{SERVER_PORT}}/api/v1/qrcode-payments \
      -H "Content-Type: application/json" \
      -H "x-cust-code: {{CUST_CODE}}" \
      -H "x-api-key: {{API_KEY}}" \
@@ -137,7 +137,7 @@ URL: `/api/v1/qrcode-payments/{{payment_id}}`
 #### ตัวอย่างการใช้งาน API สำหรับการตรวจสอบสถานะการชำระเงิน
 
 ```bash
-curl -X GET https://{{SERVER_IP}}:{{SERVER_PORT}}/api/qrcode-payments/1234567890 \
+curl -X GET https://{{SERVER_IP}}:{{SERVER_PORT}}/api/v1/qrcode-payments/1234567890 \
      -H "Content-Type: application/json" \
      -H "x-cust-code: {{CUST_CODE}}" \
      -H "x-api-key: {{API_KEY}}" \
