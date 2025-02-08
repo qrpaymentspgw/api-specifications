@@ -46,6 +46,7 @@ URL: `/api/v1/qrcode-payments`
 | ชื่อพารามิเตอร์ | ประเภท | จำเป็น | อนุญาตให้ว่างได้ | คำอธิบาย |
 |---------------|------|--------|-----------------|---------|
 | `hook_url` | string | ✓ | ✗ | url สำหรับตอบกลับเมื่อชำระเงินเสร็จ |
+| `ref_id` | string | ✓ | ✗ | รหัสอ้างอิงจากทางลูกค้า |
 | `payment_type` | string | ✓ | ✗ | ประเภทของ QR Payment (`promptpay`) |
 | `amount` | integer | ✓ | ✗ | จำนวนเงินที่ต้องการชำระ (ใส่ `1` บาทขึ้นไป) |
 | `format` | string | ✓ | ✗ | รูปแบบของไฟล์ (`base64`) |
@@ -57,7 +58,8 @@ URL: `/api/v1/qrcode-payments`
 | `status` | string | ✓ | ✗ | สถานะการตรวจสอบ <br/>(`success` = สำเร็จ, `failed` = ล้มเหลว) |
 | `message` | string | ✓ | ✗ | ข้อความที่อธิบายสถานะการตรวจสอบ |
 | `data` | object | ✓ | ✗ | ข้อมูลการชำระเงิน |
-| `data.ref_id` | string | ✓ | ✗ | รหัสอ้างอิงการชำระเงิน |
+| `data.ref_id` | string | ✓ | ✗ | รหัสอ้างอิงจากทางลูกค้า |
+| `data.payment_id` | string | ✓ | ✗ | รหัสอ้างอิงการจ่ายเงินจากทางระบบ |
 | `data.amount` | float | ✓ | ✗ | จำนวนเงินที่ชำระ |
 | `data.qrcode_base64` | string | ✓ | ✗ | ข้อมูล QR Code ในรูปแบบ Base64 |
 
@@ -71,6 +73,7 @@ curl -X POST https://{{SERVER_IP}}:{{SERVER_PORT}}/api/v1/qrcode-payments \
      -H "x-api-secret: {{API_SECRET}}" \
      -d '{
        "hook_url": "https://domain.callback.net/result/pgw",
+       "ref_id": "1234567890",
        "payment_type": "promptpay",
        "amount": 100,
        "format": "base64"
@@ -85,6 +88,7 @@ curl -X POST https://{{SERVER_IP}}:{{SERVER_PORT}}/api/v1/qrcode-payments \
   "message": "QR Code created successfully",
   "data": {
     "ref_id": "1234567890",
+    "payment_id": "25021739006403384456201",
     "amount": 100.25,
     "qrcode_base64": "iVBORw0KGgoAAAANSUhEUgAA..."
   }
@@ -153,6 +157,7 @@ curl -X GET https://{{SERVER_IP}}:{{SERVER_PORT}}/api/v1/qrcode-payments/1234567
   "data": {
     "status": "DONE",
     "ref_id": "1234567890",
+    "payment_id": "25021739006403384456201",
     "amount": 100.25,
     "description": "PromptPay x7878 นาย ทดสอบ ระบบ",
     "payment_date": "2025-01-20T17:34:00+07:00"
@@ -188,6 +193,7 @@ URL: `{{HOOK_CALLBACK_URL}}`
   "data": {
     "status": "DONE",
     "ref_id": "1234567890",
+    "payment_id": "25021739006403384456201",
     "amount": 100.25,
     "description": "PromptPay x7878 นาย ทดสอบ ระบบ",
     "payment_date": "2025-01-20T17:34:00+07:00"
