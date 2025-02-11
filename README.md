@@ -145,6 +145,8 @@ curl -X POST https://{{SERVER_IP}}:{{SERVER_PORT}}/api/v1/qrcode-payments \
 ---
 
 ### 2.2 API สำหรับการตรวจสอบสถานะการชำระเงิน (COMMING Soon...)
+
+กำลังแก้ไข และพัฒนา
 <!-- 
 Method: `GET`<br/>
 URL: `/api/v1/qrcode-payments/{{payment_id}}`
@@ -262,7 +264,7 @@ URL: `{{HOOK_CALLBACK_URL}}`
 
 ### ดาวน์โหลดตาราง Bank Code
 
-[⬇️ ดาวน์โหลดตาราง Bank Code (CSV)](https://raw.githubusercontent.com/qrpayments/docs/main/bank_codes.csv)
+[⬇️ ดาวน์โหลดตาราง Bank Code (CSV)](https://github.com/qrpaymentspgw/api-specifications/blob/main/bank_codes.csv)
 
 | bank_code | bank_name_th | bank_name_en |
 |-----------|-------------|--------------|
