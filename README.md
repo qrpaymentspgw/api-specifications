@@ -161,35 +161,53 @@ curl -X POST https://{{SERVER_IP}}:{{SERVER_PORT}}/api/v1/qrcode-payments \
 
 ---
 
-### 2.2 API สำหรับการตรวจสอบสถานะการชำระเงิน (COMMING Soon...)
+### 2.2 API สำหรับการตรวจสอบสถานะการชำระเงิน
 
-กำลังแก้ไข และพัฒนา
-<!-- 
 Method: `GET`<br/>
-URL: `/api/v1/qrcode-payments/{{payment_id}}`
+URL: `/api/v1/transactions/{{transaction_id}}`
 
 #### คำอธิบาย check qrcode-payments query parameters
 
 | พารามิเตอร์ | ประเภทข้อมูล | จำเป็นต้องระบุ | อนุญาตให้ว่างได้ | คำอธิบาย |
 |-----------|------------|--------------|----------------|----------|
-| ref_id | string | ✓ | ✗ | รหัสอ้างอิงการชำระเงินที่ต้องการตรวจสอบ |
+| transaction_id | string | ✓ | ✗ | รหัสอ้างอิงจากการสร้าง QR Code |
 
 #### คำอธิบาย check qrcode-payments response
 
 | พารามิเตอร์ | ประเภทข้อมูล | จำเป็นต้องระบุ | อนุญาตให้ว่างได้ | คำอธิบาย |
 |-----------|------------|--------------|----------------|----------|
-| status | string | ✓ | ✗ | สถานะการตรวจสอบ <br/>(`success` = สำเร็จ, `failed` = ล้มเหลว) |
+| status_code | number | ✓ | ✗ | รหัสสถานะ HTTP |
+| message | string | ✓ | ✗ | ข้อความแสดงผลการทำงาน |
 | data | object | ✓ | ✓ | ข้อมูลการชำระเงิน |
-| data.status | string | ✓ | ✗ | สถานะการตรวจสอบ <br/>(`DONE` = สำเร็จ, `PENDING` = รอดำเนินการ, `CANCEL` = ยกเลิก) |
+| data.id | string | ✓ | ✗ | รหัสธุรกรรม |
 | data.ref_id | string | ✓ | ✗ | รหัสอ้างอิงการชำระเงิน |
-| data.amount | number | ✓ | ✗ | จำนวนเงินที่ชำระ |
-| data.description | string | ✗ | ✓ | รายละเอียดการชำระเงิน |
-| data.payment_date | string | ✗ | ✓ | วันเวลาที่ชำระเงิน (รูปแบบ ISO 8601) |
+| data.amount | number | ✓ | ✗ | จำนวนเงินที่ต้องชำระ |
+| data.currency | string | ✓ | ✗ | สกุลเงิน |
+| data.callback_url | string | ✓ | ✗ | URL สำหรับรับการแจ้งเตือน |
+| data.request_timestamp | string | ✓ | ✗ | เวลาที่ร้องขอ (รูปแบบ ISO 8601) |
+| data.payer_name | string | ✓ | ✗ | ชื่อผู้ชำระเงิน |
+| data.payer_mobile | string | ✓ | ✗ | เบอร์โทรศัพท์ผู้ชำระเงิน |
+| data.payer_bank_account | string | ✓ | ✗ | เลขที่บัญชีผู้ชำระเงิน |
+| data.payer_bank_code | string | ✓ | ✗ | รหัสธนาคารผู้ชำระเงิน |
+| data.payment_status | string | ✓ | ✗ | สถานะการชำระเงิน |
+| data.beneficiary_bank_account | string | ✓ | ✗ | เลขที่บัญชีผู้รับเงิน |
+| data.beneficiary_bank_code | string | ✓ | ✗ | รหัสธนาคารผู้รับเงิน |
+| data.beneficiary_bank_name | string | ✓ | ✗ | ชื่อธนาคารผู้รับเงิน |
+| data.beneficiary_bank_name_short | string | ✓ | ✗ | ชื่อย่อธนาคารผู้รับเงิน |
+| data.beneficiary_name | string | ✓ | ✗ | ชื่อผู้รับเงิน |
+| data.ti_amount | number | ✓ | ✗ | จำนวนเงินที่ชำระจริง |
+| data.ti_customer | string | ✓ | ✗ | ข้อมูลผู้ชำระเงิน |
+| data.ti_at | string | ✓ | ✗ | เวลาที่ชำระเงิน (รูปแบบ ISO 8601) |
+| data.ti_description | string | ✓ | ✗ | รายละเอียดการชำระเงิน |
+| data.created_at | string | ✓ | ✗ | เวลาที่สร้างรายการ (รูปแบบ ISO 8601) |
+| data.updated_at | string | ✓ | ✗ | เวลาที่อัปเดตล่าสุด (รูปแบบ ISO 8601) |
+| data.owner_id | string | ✓ | ✗ | รหัสเจ้าของบัญชี |
+| data.web_bank_name | string | ✓ | ✓ | ชื่อธนาคารบนเว็บ |
 
 #### ตัวอย่างการใช้งาน API สำหรับการตรวจสอบสถานะการชำระเงิน
 
 ```bash
-curl -X GET https://{{SERVER_IP}}:{{SERVER_PORT}}/api/v1/qrcode-payments/1234567890 \
+curl -X GET https://{{SERVER_IP}}:{{SERVER_PORT}}/api/v1/transactions/25021739391745511481672 \
      -H "Content-Type: application/json" \
      -H "x-cust-code: {{CUST_CODE}}" \
      -H "x-api-key: {{API_KEY}}" \
@@ -200,24 +218,185 @@ curl -X GET https://{{SERVER_IP}}:{{SERVER_PORT}}/api/v1/qrcode-payments/1234567
 
 ```json
 {
-  "status": "success",
-  "message": "QR Code received successfully",
+    "status_code": 200,
+    "message": "OK (สำเร็จ) - [Success]",
+    "data": {
+        "id": "25021739391745511481672",
+        "ref_id": "TEST123457",
+        "amount": 1,
+        "currency": "THB",
+        "callback_url": "http://callback.com/api/hook",
+        "request_timestamp": "2025-02-11T11:41:00Z",
+        "payer_name": "ทดสอบ ระบบเกตเวย์",
+        "payer_mobile": "0812345678",
+        "payer_bank_account": "1234567890",
+        "payer_bank_code": "014",
+        "payment_status": "DONE",
+        "beneficiary_bank_account": "1234567890",
+        "beneficiary_bank_code": "014",
+        "beneficiary_bank_name": "ธนาคารไทยพาณิชย์ จำกัด (มหาชน)",
+        "beneficiary_bank_name_short": "SCB",
+        "beneficiary_name": "บัญชี ระบบเกตเวย์",
+        "ti_amount": 10000,
+        "ti_customer": "ฝากถอนเงินโอนไม่ใช้สมุด",
+        "ti_at": "2025-02-11T19:03:33+07:00",
+        "ti_description": "กสิกรไทย (KBANK) /X987654",
+        "created_at": "2025-02-12T20:22:25.512Z",
+        "updated_at": "2025-02-12T21:12:37.989Z",
+        "owner_id": "60e0af0e-4b40-4c32-8988-ee0d7e75afb6",
+        "web_bank_name": ""
+    }
+}
+```
+
+### 2.3 API สำหรับการยืนยันการชำระเงิน
+
+Method: `POST`<br/>
+URL: `/api/v1/transactions/match`
+
+#### คำอธิบาย match transaction
+
+| พารามิเตอร์ | ประเภทข้อมูล | จำเป็นต้องระบุ | อนุญาตให้ว่างได้ | คำอธิบาย |
+|-----------|------------|--------------|----------------|----------|
+| transaction_id | string | ✓ | ✗ | รหัสธุรกรรม |
+| amount | number | ✓ | ✗ | จำนวนเงินที่ต้องชำระ |
+| payer_name | string | ✓ | ✗ | ชื่อผู้ชำระเงิน |
+| payer_mobile | string | ✓ | ✗ | เบอร์โทรศัพท์ผู้ชำระเงิน |
+| payer_bank_account | string | ✓ | ✗ | เลขที่บัญชีผู้ชำระเงิน |
+| payer_bank_code | string | ✓ | ✗ | รหัสธนาคารผู้ชำระเงิน |
+
+#### คำอธิบายตัวอย่างการตอบกลับ match transaction
+
+| พารามิเตอร์ | ประเภทข้อมูล | จำเป็นต้องระบุ | อนุญาตให้ว่างได้ | คำอธิบาย |
+|-----------|------------|--------------|----------------|----------|
+| status_code | number | ✓ | ✗ | รหัสสถานะ HTTP |
+| message | string | ✓ | ✗ | ข้อความแสดงผลการทำงาน |
+| data.input | object | ✓ | ✗ | ข้อมูลการยืนยันการชำระเงิน ที่ส่งมา |
+| data.input.transaction_id | string | ✓ | ✗ | รหัสธุรกรรม |
+| data.input.amount | number | ✓ | ✗ | จำนวนเงินที่ต้องชำระ |
+| data.input.payer_name | string | ✓ | ✗ | ชื่อผู้ชำระเงิน |
+| data.input.payer_bank_account | string | ✓ | ✗ | เลขที่บัญชีผู้ชำระเงิน |
+| data.input.payer_bank_code | string | ✓ | ✗ | รหัสธนาคารผู้ชำระเงิน |
+| data.bank_statement | object | ✓ | ✗ | ข้อมูลการยืนยันการชำระเงิน จากธนาคาร |
+| data.bank_statement.amount | number | ✓ | ✗ | จำนวนเงิน |
+| data.bank_statement.amount_sign | string | ✓ | ✗ | สัญลักษณ์จำนวนเงิน |
+| data.bank_statement.balance | number | ✓ | ✗ | ยอดคงเหลือ |
+| data.bank_statement.bank_code | string | ✓ | ✗ | รหัสธนาคาร |
+| data.bank_statement.description | string | ✓ | ✗ | รายละเอียด |
+| data.bank_statement.record_id | string | ✓ | ✗ | รหัสบันทึก |
+| data.bank_statement.status | string | ✓ | ✗ | สถานะ |
+| data.bank_statement.transaction_at | string | ✓ | ✗ | วันที่ทำธุรกรรม |
+| data.bank_statement.transaction_code | string | ✓ | ✗ | รหัสธุรกรรม |
+| data.bank_statement.transaction_code_desc | string | ✓ | ✗ | คำอธิบายรหัสธุรกรรม |
+| data.transaction | object | ✓ | ✗ | ข้อมูลการยืนยันการชำระเงิน จากระบบ |
+| data.transaction.id | string | ✓ | ✗ | รหัสธุรกรรม |
+| data.transaction.ref_id | string | ✓ | ✗ | รหัสอ้างอิง |
+| data.transaction.amount | number | ✓ | ✗ | จำนวนเงิน |
+| data.transaction.currency | string | ✓ | ✗ | สกุลเงิน |
+| data.transaction.callback_url | string | ✓ | ✗ | URL สำหรับการตอบกลับ |
+| data.transaction.request_timestamp | string | ✓ | ✗ | เวลาที่ขอ |
+| data.transaction.payer_name | string | ✓ | ✗ | ชื่อผู้ชำระเงิน |
+| data.transaction.payer_mobile | string | ✓ | ✗ | เบอร์โทรศัพท์ผู้ชำระเงิน |
+| data.transaction.payer_bank_account | string | ✓ | ✗ | เลขที่บัญชีผู้ชำระเงิน |
+| data.transaction.payer_bank_code | string | ✓ | ✗ | รหัสธนาคารผู้ชำระเงิน |
+| data.transaction.payment_status | string | ✓ | ✗ | สถานะการชำระเงิน |
+| data.transaction.beneficiary_bank_account | string | ✓ | ✗ | เลขที่บัญชีผู้รับเงิน |
+| data.transaction.beneficiary_bank_code | string | ✓ | ✗ | รหัสธนาคารผู้รับเงิน |
+| data.transaction.beneficiary_bank_name | string | ✓ | ✗ | ชื่อธนาคารผู้รับเงิน |
+| data.transaction.beneficiary_bank_name_short | string | ✓ | ✗ | ชื่อย่อธนาคารผู้รับเงิน |
+| data.transaction.beneficiary_name | string | ✓ | ✗ | ชื่อผู้รับเงิน |
+| data.transaction.ti_amount | number | ✓ | ✗ | จำนวนเงินที่ทำธุรกรรม |
+| data.transaction.ti_customer | string | ✓ | ✗ | ลูกค้าที่ทำธุรกรรม |
+| data.transaction.ti_at | string | ✓ | ✗ | วันที่ทำธุรกรรม |
+| data.transaction.ti_description | string | ✓ | ✗ | รายละเอียดการทำธุรกรรม |
+| data.transaction.created_at | string | ✓ | ✗ | วันที่สร้าง |
+| data.transaction.updated_at | string | ✓ | ✗ | วันที่อัปเดต |
+| data.transaction.owner_id | string | ✓ | ✗ | รหัสเจ้าของ |
+| data.transaction.web_bank_name | string | ✓ | ✗ | ชื่อธนาคารบนเว็บ |
+
+#### ตัวอย่างการเรียก API
+
+```bash
+curl -X POST https://{{SERVER_IP}}:{{SERVER_PORT}}/api/v1/transactions/match \
+     -H "Content-Type: application/json" \
+     -H "x-cust-code: {{CUST_CODE}}" \
+     -H "x-api-key: {{API_KEY}}" \
+     -H "x-api-secret: {{API_SECRET}}"
+     -d '{
+        "transaction_id": "25021739391745511481672",
+        "amount": 10000,
+        "payer_name": "ทดสอบ ระบบเกตเวย์",
+        "payer_mobile": "0812345678",
+        "payer_bank_account": "1234567890",
+        "payer_bank_code": "014"
+     }'
+```
+
+#### ตัวอย่างการตอบกลับ match transaction
+
+```json
+{
+  "status_code": 200,
+  "message": "OK (สำเร็จ) - [Success]",
   "data": {
-    "status": "DONE",
-    "ref_id": "1234567890",
-    "payment_id": "25021739006403384456201",
-    "amount": 100.25,
-    "description": "PromptPay x7878 นาย ทดสอบ ระบบ",
-    "payment_date": "2025-01-20T17:34:00+07:00"
+    "input": {
+      "transaction_id": "25021739391745511481672",
+      "amount": 10,
+      "payer_name": "ทดสอบ ระบบเกตเวย์",
+      "payer_bank_account": "1234567890",
+      "payer_bank_code": "014"
+    },
+    "bank_statement": {
+      "amount": 10,
+      "amount_sign": "+",
+      "balance": 0,
+      "bank_code": "014",
+      "description": "กสิกรไทย (KBANK) /X987654",
+      "record_id": "218245648014659999421092067584  ",
+      "status": "NEW",
+      "transaction_at": "2025-02-11T19:03:33+07:00",
+      "transaction_code": "X1",
+      "transaction_code_desc": "ฝากถอนเงินโอนไม่ใช้สมุด"
+    },
+    "transaction": {
+      "id": "25021739391745511481672",
+      "ref_id": "TEST123457",
+      "amount": 1,
+      "currency": "THB",
+      "callback_url": "http://callback.com/api/hook",
+      "request_timestamp": "2025-02-11T11:41:00Z",
+      "payer_name": "ทดสอบ ระบบเกตเวย์",
+      "payer_mobile": "0812345678",
+      "payer_bank_account": "1234567890",
+      "payer_bank_code": "014",
+      "payment_status": "MANUAL_MATCH",
+      "beneficiary_bank_account": "1234567890",
+      "beneficiary_bank_code": "014",
+      "beneficiary_bank_name": "ธนาคารไทยพาณิชย์ จำกัด (มหาชน)",
+      "beneficiary_bank_name_short": "SCB",
+      "beneficiary_name": "บัญชี ระบบเกตเวย์",
+      "ti_amount": 10,
+      "ti_customer": "ฝากถอนเงินโอนไม่ใช้สมุด",
+      "ti_at": "2025-02-11T19:03:33+07:00",
+      "ti_description": "กสิกรไทย (KBANK) /X987654",
+      "created_at": "2025-02-12T20:22:25.512Z",
+      "updated_at": "2025-02-12T21:30:57.586487582Z",
+      "owner_id": "60e0af0e-4b40-4c32-8988-ee0d7e75afb6",
+      "web_bank_name": ""
+    }
   }
 }
-``` -->
+
+```
 
 ### 3. Hook api callback สำหรับการแจ้งตรวจสอบสถานะการชำระเงิน
 
+Method: `POST`<br/>
+URL: `{{HOOK_CALLBACK_URL}}`
+
 เมื่อมีการชำระเงินจะมีการส่งข้อมูลกลับมาที่ URL ที่ท่านที่กำหนดไว้ ตามรายละเอียดด้านล่าง
 
-#### คำอธิบาย
+#### คำอธิบาย hook callback
 
 | พารามิเตอร์ | ประเภทข้อมูล | จำเป็นต้องระบุ | อนุญาตให้ว่างได้ | คำอธิบาย |
 |-----------|------------|--------------|----------------|----------|
@@ -240,9 +419,6 @@ curl -X GET https://{{SERVER_IP}}:{{SERVER_PORT}}/api/v1/qrcode-payments/1234567
 | `data.beneficiary_bank_code` | string | ✓ | ✗ | รหัสธนาคารผู้รับเงิน |
 | `data.beneficiary_name` | string | ✓ | ✗ | ชื่อผู้รับเงิน |
 | `data.request_timestamp` | string | ✓ | ✗ | วันเวลาที่ร้องขอ (รูปแบบ ISO 8601) |
-
-Method: `POST`<br/>
-URL: `{{HOOK_CALLBACK_URL}}`
 
 #### ตัวอย่างการตอบกลับ
 
@@ -281,7 +457,7 @@ URL: `{{HOOK_CALLBACK_URL}}`
 
 ### ดาวน์โหลดตาราง Bank Code
 
-[⬇️ ดาวน์โหลดตาราง Bank Code (CSV)](https://github.com/qrpaymentspgw/api-specifications/blob/main/bank_codes.csv)
+[⬇️ ดาวน์โหลดตาราง Bank Code (CSV)](https://raw.githubusercontent.com/qrpayments/docs/main/bank_codes.csv)
 
 | bank_code | bank_name_th | bank_name_en |
 |-----------|-------------|--------------|
