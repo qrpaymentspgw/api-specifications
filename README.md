@@ -246,6 +246,7 @@ URL: `/api/v1/transactions/match`
 |-----------|------------|--------------|----------------|----------|
 | status_code | number | ✓ | ✗ | รหัสสถานะ HTTP |
 | message | string | ✓ | ✗ | ข้อความแสดงผลการทำงาน |
+| data.annotation | string | ✓ | ✗ | คำอธิบายสถานะการยืนยันการชำระเงิน<br/>สามารถมีค่าเป็น: <br/>- `NOT_FOUND`: ไม่พบข้อมูล <br/>- `SUCCESS`: การยืนยันสำเร็จ <br/>- `AMOUNT_BANK_STATEMENT_NOT_MATCH_ORIGINAL_TRANSACTION`: จำนวนเงินใน statement ไม่ตรงกับธุรกรรมเดิม <br/>- `ACCOUNT_NUMBER_NOT_MATCH`: เลขที่บัญชีไม่ตรงกัน <br/>- `NAME_NOT_MATCH`: ชื่อไม่ตรงกัน <br/>- `LAST_4_DIGITS_NOT_MATCH`: 4 หลักสุดท้ายของบัญชีไม่ตรงกัน <br/>- `NAME_AI_NOT_MATCH`: ชื่อไม่ตรงกันตามการตรวจสอบ AI <br/>- `FAILED`: การยืนยันล้มเหลว |
 | data.input | object | ✓ | ✗ | ข้อมูลการยืนยันการชำระเงิน ที่ส่งมา |
 | data.input.transaction_id | string | ✓ | ✗ | รหัสธุรกรรม |
 | data.input.amount | number | ✓ | ✗ | จำนวนเงินที่ต้องชำระ |
