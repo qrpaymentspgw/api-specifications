@@ -124,20 +124,37 @@ curl -X POST https://{{SERVER_IP}}:{{SERVER_PORT}}/api/v1/qrcode-payments \
 }
 ```
 
-#### ข้อผิดพลาดที่พบบ่อย
+#### status code
 
-| รหัสข้อผิดพลาด | คำอธิบาย |
+| รหัส | คำอธิบาย |
 |--------------|---------|
-| `400` | คำขอไม่ถูกต้อง (ตรวจสอบค่าพารามิเตอร์) |
-| `401` | ไม่ได้รับอนุญาตให้ใช้งาน API |
-| `500` | ข้อผิดพลาดจากเซิร์ฟเวอร์ |
+| `200` | OK (สำเร็จ) |
+| `201` | Created - Payment Pending (รอการชำระเงิน) |
+| `202` | Accepted - Payment Accepted (ยอมรับการชำระเงิน) |
+| `203` | Non-Authoritative Information - Payment Success BUT amount is not match (ชำระเงินสำเร็จแต่จำนวนเงินไม่ตรง) |
+| `204` | No Content - Payment Success BUT account is not match (ชำระเงินสำเร็จแต่บัญชีไม่ตรง) |
+| `400` | Bad Request (ตรวจสอบค่าพารามิเตอร์) |
+| `401` | Unauthorized (ไม่ได้รับอนุญาตให้ใช้งาน API) |
+| `402` | Payment Required - Insufficient Funds (ยอดเงินไม่เพียงพอ) |
+| `403` | Forbidden - Transaction Forbidden (ไม่อนุญาตให้ทำรายการ) |
+| `404` | Not Found - Payment Method Not Found (ไม่พบวิธีการชำระเงิน) |
+| `406` | Not Acceptable (ไม่สามารถยอมรับได้) |
+| `408` | Request Timeout (หมดเวลาการทำรายการ) |
+| `409` | Conflict - Duplicate Transaction (รายการซ้ำ) |
+| `421` | Misdirected Request - Card Expired (บัตรหมดอายุ) |
+| `430` | Request Header Fields Too Large - Card Blocked (บัตรถูกระงับ) |
+| `440` | Login Time-out - Exceed Withdrawal Limit (เกินวงเงินการถอน) |
+| `500` | Internal Server Error (ข้อผิดพลาดจากเซิร์ฟเวอร์) |
+| `502` | Bad Gateway (เกตเวย์ไม่ถูกต้อง) |
+| `503` | Service Unavailable (ไม่สามารถให้บริการได้) |
+| `504` | Gateway Timeout (หมดเวลาการเชื่อมต่อเกตเวย์) |
 
-#### ตัวอย่างข้อผิดพลาดที่พบบ่อย
+#### ตัวอย่าง
 
 ```json
 {
   "status_code": 400,
-  "message": "คำขอไม่ถูกต้อง (ตรวจสอบค่าพารามิเตอร์)",
+  "message": "Bad Request (ตรวจสอบค่าพารามิเตอร์)",
   "data": null
 }
 ```
