@@ -365,12 +365,12 @@ curl -X POST https://{{SERVER_IP}}:{{SERVER_PORT}}/api/v1/transactions/match \
 
 ```
 
-### 2.3 API สำหรับการยืนยันการชำระเงินพร้อม callback
+### 2.4 API สำหรับการยืนยันการชำระเงินพร้อม callback
 
 Method: `POST`<br/>
 URL: `{{SERVER_IP}}:{{SERVER_PORT}}/api/v1/transactions/match-callback`
 
-### การทำงานเหมือนกับการเรียก 2.2 เพิ่มการยิง callback ไปปลายทางที่ท่านใส่เข้ามาในตอนสร้าง QR Code
+### การทำงานเหมือนกับการเรียก 2.3 เพิ่มการยิง callback ไปปลายทางที่ท่านใส่เข้ามาในตอนสร้าง QR Code
 
 #### ตัวอย่างการเรียก API Match callback
 
