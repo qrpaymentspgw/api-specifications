@@ -429,7 +429,7 @@ URL: `{{HOOK_CALLBACK_URL}}`
 
 ```json
 {
-  "status_code": "success",
+  "status_code": 200,
   "message": "QR Code received successfully",
   "data": {
     "payment_status": "DONE",
