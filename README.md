@@ -23,7 +23,7 @@
 
 ### Enpoint
 
-- URL: `https://{{SERVER_IP}}:{{SERVER_PORT}}/`
+- URL: `http://{{SERVER_IP}}:{{SERVER_PORT}}/`
 
 #### ทุก api จะต้องมี header ดังนี้
 
@@ -81,13 +81,13 @@ URL: `/api/v1/qrcode-payments`
 #### ตัวอย่างการใช้งาน API สำหรับการสร้าง QR Payment
 
 ```bash
-curl -X POST https://{{SERVER_IP}}:{{SERVER_PORT}}/api/v1/qrcode-payments \
+curl -X POST http://{{SERVER_IP}}:{{SERVER_PORT}}/api/v1/qrcode-payments \
      -H "Content-Type: application/json" \
      -H "x-cust-code: {{CUST_CODE}}" \
      -H "x-api-key: {{API_KEY}}" \
      -H "x-api-secret: {{API_SECRET}}" \
      -d '{
-       "callback_url": "https://domain.callback.net/result/pgw",
+       "callback_url": "http://domain.callback.net/result/pgw",
        "ref_id": "1234567890",
        "payment_type": "promptpay",
        "amount": 10000,
@@ -182,7 +182,7 @@ URL: `/api/v1/transactions/{{transaction_id}}`
 #### ตัวอย่างการใช้งาน API สำหรับการตรวจสอบสถานะการชำระเงิน
 
 ```bash
-curl -X GET https://{{SERVER_IP}}:{{SERVER_PORT}}/api/v1/transactions/25021739391745511481672 \
+curl -X GET http://{{SERVER_IP}}:{{SERVER_PORT}}/api/v1/transactions/25021739391745511481672 \
      -H "Content-Type: application/json" \
      -H "x-cust-code: {{CUST_CODE}}" \
      -H "x-api-key: {{API_KEY}}" \
@@ -293,7 +293,7 @@ URL: `/api/v1/transactions/match`
 #### ตัวอย่างการเรียก API
 
 ```bash
-curl -X POST https://{{SERVER_IP}}:{{SERVER_PORT}}/api/v1/transactions/match \
+curl -X POST http://{{SERVER_IP}}:{{SERVER_PORT}}/api/v1/transactions/match \
      -H "Content-Type: application/json" \
      -H "x-cust-code: {{CUST_CODE}}" \
      -H "x-api-key: {{API_KEY}}" \
@@ -374,7 +374,7 @@ URL: `{{SERVER_IP}}:{{SERVER_PORT}}/api/v1/transactions/match-callback`
 #### ตัวอย่างการเรียก API Match callback
 
 ```bash
-curl -X POST https://{{SERVER_IP}}:{{SERVER_PORT}}/api/v1/transactions/match-callback \
+curl -X POST http://{{SERVER_IP}}:{{SERVER_PORT}}/api/v1/transactions/match-callback \
      -H "Content-Type: application/json" \
      -H "x-cust-code: {{CUST_CODE}}" \
      -H "x-api-key: {{API_KEY}}" \
@@ -486,7 +486,7 @@ URL: `{{SERVER_IP}}:{{SERVER_PORT}}/api/v1/customer`
 #### ตัวอย่างการเรียก API สำหรับการดึงข้อมูลลูกค้า
 
 ```bash
-curl -X GET https://{{SERVER_IP}}:{{SERVER_PORT}}/api/v1/customer \
+curl -X GET http://{{SERVER_IP}}:{{SERVER_PORT}}/api/v1/customer \
      -H "Content-Type: application/json" \
      -H "x-cust-code: {{CUST_CODE}}" \
      -H "x-api-key: {{API_KEY}}" \
@@ -519,8 +519,8 @@ curl -X GET https://{{SERVER_IP}}:{{SERVER_PORT}}/api/v1/customer \
 			],
 			"is_active": true,
 			"match_type": "account",
-			"hook_callback": "https://payment.api.com/hook/callback",
-			"hook_failed_url": "https://payment.api.com/hook/callback-failed",
+			"hook_callback": "http://payment.api.com/hook/callback",
+			"hook_failed_url": "http://payment.api.com/hook/callback-failed",
 			"owner_id": "60e0af0e-4b40-4c32-8988-ee0d7e75afb6"
 		}
 	}
