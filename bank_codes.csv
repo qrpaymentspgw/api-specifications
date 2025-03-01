@@ -1,35 +1,35 @@
-bank_code,bank_name_th,bank_name_en
-002,ธนาคารกรุงเทพ จำกัด (มหาชน),BANGKOK BANK PUBLIC COMPANY LIMITED
-004,ธนาคารกสิกรไทย จำกัด (มหาชน),KASIKORNBANK PUBLIC COMPANY LIMITED
-006,ธนาคารกรุงไทย จำกัด (มหาชน),KRUNG THAI BANK PUBLIC COMPANY LIMITED
-008,ธนาคารเจพีมอร์แกน เชส,"JPMORGAN CHASE BANK, N.A."
-009,ธนาคารโอเวอร์ซี-ไชนีสแบงกิ้งคอร์ปอเรชั่น จำกัด,OVERSEA-CHINESE BANKING CORPORATION LIMITED
-011,ธนาคารทหารไทยธนชาต จำกัด (มหาชน),TMBTHANACHART BANK PUBLIC COMPANY LIMITED
-014,ธนาคารไทยพาณิชย์ จำกัด (มหาชน),THE SIAM COMMERCIAL BANK PUBLIC COMPANY LIMITED
-017,ธนาคารซิตี้แบงก์ เอ็น.เอ.,"CITIBANK, N.A."
-018,ธนาคารซูมิโตโม มิตซุย แบงกิ้ง คอร์ปอเรชั่น,SUMITOMO MITSUI BANKING CORPORATION
-020,ธนาคารสแตนดาร์ดชาร์เตอร์ด (ไทย) จำกัด (มหาชน),STANDARD CHARTERED BANK (THAI) PUBLIC COMPANY LIMITED
-022,ธนาคารซีไอเอ็มบี ไทย จำกัด (มหาชน),CIMB THAI BANK PUBLIC COMPANY LIMITED
-023,ธนาคารอาร์ เอช บี จำกัด,"RHB BANK BERHAD, THAILAND"
-024,ธนาคารยูโอบี จำกัด (มหาชน),UNITED OVERSEAS BANK (THAI) PUBLIC COMPANY LIMITED
-025,ธนาคารกรุงศรีอยุธยา จำกัด (มหาชน),BANK OF AYUDHAYA PUBLIC COMPANY LIMITED
-026,ธนาคารเมกะ สากลพาณิชย์ จำกัด (มหาชน),MEGA INTERNATIONAL COMMERCIAL BANK PUBLIC COMPANY LIMITED
-027,ธนาคารแห่งอเมริกาเนชั่นแนลแอสโซซิเอชั่น,BANK OF AMERICA NATIONAL ASSOCIATION
-029,ธนาคารอินเดียนโอเวอร์ซีส์,INDIAN OVERSEAS BANK
-030,ธนาคารออมสิน,GOVERNMENT SAVINGS BANK
-031,ธนาคารฮ่องกงและเซี่ยงไฮ้แบงกิ้งคอร์ปอเรชั่น จำกัด,THE HONGKONG AND SHANGHAI BANKING CORPORATION LIMITED
-032,ธนาคารดอยซ์แบงก์,DEUTSCHE BANK AG.
-033,ธนาคารอาคารสงเคราะห์,GOVERNMENT HOUSTING BANK
-034,ธนาคารเพื่อการเกษตรและสหกรณ์การเกษตร,BANK FOR AGRICULTURE AND AGRICULTURAL COOPERATIVES
-035,ธนาคารเพื่อการส่งออกและนำเข้าแห่งประเทศไทย,EXPORT IMPORT BANK OF THAILAND
-039,ธนาคารมิซูโฮ จำกัด สาขากรุงเทพฯ,"MIZUHO BANK, LTD. BANGKOK BRANCH"
-045,ธนาคารบีเอ็นพี พารีบาส์,BNP PARIBAS BANGKOK BRANCH
-052,ธนาคารแห่งประเทศจีน (ไทย) จำกัด (มหาชน),BANK OF CHINA (THAI) PUBLIC COMPANY LIMITED
-066,ธนาคารอิสลามแห่งประเทศไทย,ISLAMIC BANK OF THAILAND
-067,ธนาคารทิสโก้ จำกัด (มหาชน),TISCO BANK PUBLIC COMPANY LIMITED
-069,ธนาคารเกียรตินาคินภัทร จำกัด (มหาชน),KIATNAKIN PHATRA BANK PUBLIC COMPANY LIMITED
-070,ธนาคารไอซีบีซี (ไทย) จำกัด (มหาชน),INDUSTRIAL AND COMMERCIAL BANK OF CHINA (THAI) PCL.
-071,ธนาคารไทยเครดิต จํากัด (มหาชน),THAI CREDIT BANK PUBLIC COMPANY LIMITED
-073,ธนาคารแลนด์ แอนด์ เฮ้าส์ จำกัด (มหาชน),LAND AND HOUSES BANK PUBLIC COMPANY LIMITED
-080,ธนาคารซูมิโตโม มิตซุย ทรัสต์ (ไทย) จำกัด (มหาชน),SUMITOMO MITSUI TRUST BANK (THAI) PUBLIC COMPANY LIMITED
-098,ธนาคารพัฒนาวิสาหกิจขนาดกลางและขนาดย่อมแห่งประเทศไทย,SMALL AND MEDIUM ENTERPRISE DEVELOPMENT BANK OF THAILAND
+bank_code,bank_name_th,bank_name_en,bank_short_name_th,bank_short_name_en
+002,ธนาคารกรุงเทพ จำกัด (มหาชน),BANGKOK BANK PUBLIC COMPANY LIMITED,กรุงเทพ,BBL
+004,ธนาคารกสิกรไทย จำกัด (มหาชน),KASIKORNBANK PUBLIC COMPANY LIMITED,กสิกรไทย,KBANK
+006,ธนาคารกรุงไทย จำกัด (มหาชน),KRUNG THAI BANK PUBLIC COMPANY LIMITED,กรุงไทย,KTB
+008,ธนาคารเจพีมอร์แกน เชส,"JPMORGAN CHASE BANK, N.A.",เจพีมอร์แกน,JPM
+009,ธนาคารโอเวอร์ซี-ไชนีสแบงกิ้งคอร์ปอเรชั่น จำกัด,OVERSEA-CHINESE BANKING CORPORATION LIMITED,โอซีบีซี,OCBC
+011,ธนาคารทหารไทยธนชาต จำกัด (มหาชน),TMBTHANACHART BANK PUBLIC COMPANY LIMITED,ทหารไทยธนชาต,TTB
+014,ธนาคารไทยพาณิชย์ จำกัด (มหาชน),THE SIAM COMMERCIAL BANK PUBLIC COMPANY LIMITED,ไทยพาณิชย์,SCB
+017,ธนาคารซิตี้แบงก์ เอ็น.เอ.,"CITIBANK, N.A.",ซิตี้แบงก์,CITI
+018,ธนาคารซูมิโตโม มิตซุย แบงกิ้ง คอร์ปอเรชั่น,SUMITOMO MITSUI BANKING CORPORATION,ซูมิโตโม,SMBC
+020,ธนาคารสแตนดาร์ดชาร์เตอร์ด (ไทย) จำกัด (มหาชน),STANDARD CHARTERED BANK (THAI) PUBLIC COMPANY LIMITED,สแตนดาร์ดชาร์เตอร์ด,SCB THAI
+022,ธนาคารซีไอเอ็มบี ไทย จำกัด (มหาชน),CIMB THAI BANK PUBLIC COMPANY LIMITED,ซีไอเอ็มบี,CIMB
+023,ธนาคารอาร์ เอช บี จำกัด,"RHB BANK BERHAD, THAILAND",อาร์เอชบี,RHB
+024,ธนาคารยูโอบี จำกัด (มหาชน),UNITED OVERSEAS BANK (THAI) PUBLIC COMPANY LIMITED,ยูโอบี,UOB
+025,ธนาคารกรุงศรีอยุธยา จำกัด (มหาชน),BANK OF AYUDHAYA PUBLIC COMPANY LIMITED,กรุงศรี,BAY
+026,ธนาคารเมกะ สากลพาณิชย์ จำกัด (มหาชน),MEGA INTERNATIONAL COMMERCIAL BANK PUBLIC COMPANY LIMITED,เมกะ,MEGA
+027,ธนาคารแห่งอเมริกาเนชั่นแนลแอสโซซิเอชั่น,BANK OF AMERICA NATIONAL ASSOCIATION,แบงก์ออฟอเมริกา,BOA
+029,ธนาคารอินเดียนโอเวอร์ซีส์,INDIAN OVERSEAS BANK,ไอโอบี,IOB
+030,ธนาคารออมสิน,GOVERNMENT SAVINGS BANK,ออมสิน,GSB
+031,ธนาคารฮ่องกงและเซี่ยงไฮ้แบงกิ้งคอร์ปอเรชั่น จำกัด,THE HONGKONG AND SHANGHAI BANKING CORPORATION LIMITED,เอชเอสบีซี,HSBC
+032,ธนาคารดอยซ์แบงก์,DEUTSCHE BANK AG.,ดอยซ์แบงก์,DB
+033,ธนาคารอาคารสงเคราะห์,GOVERNMENT HOUSTING BANK,ธอส.,GHB
+034,ธนาคารเพื่อการเกษตรและสหกรณ์การเกษตร,BANK FOR AGRICULTURE AND AGRICULTURAL COOPERATIVES,ธ.ก.ส.,BAAC
+035,ธนาคารเพื่อการส่งออกและนำเข้าแห่งประเทศไทย,EXPORT IMPORT BANK OF THAILAND,ธสน.,EXIM
+039,ธนาคารมิซูโฮ จำกัด สาขากรุงเทพฯ,"MIZUHO BANK, LTD. BANGKOK BRANCH",มิซูโฮ,MIZUHO
+045,ธนาคารบีเอ็นพี พารีบาส์,BNP PARIBAS BANGKOK BRANCH,บีเอ็นพี,BNP
+052,ธนาคารแห่งประเทศจีน (ไทย) จำกัด (มหาชน),BANK OF CHINA (THAI) PUBLIC COMPANY LIMITED,แบงก์ออฟไชน่า,BOC
+066,ธนาคารอิสลามแห่งประเทศไทย,ISLAMIC BANK OF THAILAND,อิสลาม,IBank
+067,ธนาคารทิสโก้ จำกัด (มหาชน),TISCO BANK PUBLIC COMPANY LIMITED,ทิสโก้,TISCO
+069,ธนาคารเกียรตินาคินภัทร จำกัด (มหาชน),KIATNAKIN PHATRA BANK PUBLIC COMPANY LIMITED,เกียรตินาคิน,KKP
+070,ธนาคารไอซีบีซี (ไทย) จำกัด (มหาชน),INDUSTRIAL AND COMMERCIAL BANK OF CHINA (THAI) PCL.,ไอซีบีซี,ICBC
+071,ธนาคารไทยเครดิต จํากัด (มหาชน),THAI CREDIT BANK PUBLIC COMPANY LIMITED,ไทยเครดิต,TCB
+073,ธนาคารแลนด์ แอนด์ เฮ้าส์ จำกัด (มหาชน),LAND AND HOUSES BANK PUBLIC COMPANY LIMITED,แลนด์แอนด์เฮ้าส์,LH BANK
+080,ธนาคารซูมิโตโม มิตซุย ทรัสต์ (ไทย) จำกัด (มหาชน),SUMITOMO MITSUI TRUST BANK (THAI) PUBLIC COMPANY LIMITED,ซูมิโตโมทรัสต์,SMTB
+098,ธนาคารพัฒนาวิสาหกิจขนาดกลางและขนาดย่อมแห่งประเทศไทย,SMALL AND MEDIUM ENTERPRISE DEVELOPMENT BANK OF THAILAND,เอสเอ็มอี,SME Bank
