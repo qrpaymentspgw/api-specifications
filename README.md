@@ -527,13 +527,139 @@ curl -X GET http://{{SERVER_IP}}:{{SERVER_PORT}}/api/v1/customer \
 }
 ```
 
+## 5. API สำหรับ Payout
+
+### ธนาคารที่รองรับ
+
+| bank_code | bank_name_th                                        | bank_name_en                                              |
+| --------- | -------------------------------------------------- | -------------------------------------------------------- |
+| 014       | ธนาคารไทยพาณิชย์ จำกัด (มหาชน)                      | THE SIAM COMMERCIAL BANK PUBLIC COMPANY LIMITED           |
+| 004       | ธนาคารกสิกรไทย จำกัด (มหาชน)                        | KASIKORNBANK PUBLIC COMPANY LIMITED                       |
+| 006       | ธนาคารกรุงไทย จำกัด (มหาชน)                         | KRUNG THAI BANK PUBLIC COMPANY LIMITED                    |
+| 002       | ธนาคารกรุงเทพ จำกัด (มหาชน)                         | BANGKOK BANK PUBLIC COMPANY LIMITED                       |
+| 011       | ธนาคารทหารไทยธนชาต จำกัด (มหาชน)                    | TMBTHANACHART BANK PUBLIC COMPANY LIMITED                 |
+| 030       | ธนาคารออมสิน                                        | GOVERNMENT SAVINGS BANK                                   |
+| 025       | ธนาคารกรุงศรีอยุธยา จำกัด (มหาชน)                   | BANK OF AYUDHAYA PUBLIC COMPANY LIMITED                   |
+| 034       | ธนาคารเพื่อการเกษตรและสหกรณ์การเกษตร                | BANK FOR AGRICULTURE AND AGRICULTURAL COOPERATIVES        |
+| 024       | ธนาคารยูโอบี จำกัด (มหาชน)                          | UNITED OVERSEAS BANK (THAI) PUBLIC COMPANY LIMITED        |
+| 033       | ธนาคารอาคารสงเคราะห์                                | GOVERNMENT HOUSTING BANK                                  |
+| 022       | ธนาคารซีไอเอ็มบี ไทย จำกัด (มหาชน)                  | CIMB THAI BANK PUBLIC COMPANY LIMITED                     |
+
+หากมีอัพเดท จะแจ้งให้ทราบผ่านช่องทางติดต่อกัน
+
+### 5.1 สร้าง Payout
+
+#### คำอธิบาย API สำหรับ Payout body parameters json
+
+| พารามิเตอร์                           | ประเภทข้อมูล | จำเป็นต้องระบุ | อนุญาตให้ว่างได้ | คำอธิบาย                                            |
+| ------------------------------------- | ------------ | -------------- | ---------------- | --------------------------------------------------- |
+| `callback_url`                        | string       | ✓              | ✗                | URL สำหรับรับการแจ้งเตือนผลการทำรายการ               |
+| `ref_id`                              | string       | ✓              | ✗                | รหัสอ้างอิงจากลูกค้า                                  |
+| `trigger`                             | string       | ✓              | ✗                | ช่องทางการทำรายการ                                   |
+| `amount`                              | number       | ✓              | ✗                | จำนวนเงินที่ต้องการโอน                               |
+| `currency`                            | string       | ✓              | ✗                | สกุลเงิน                                             |
+| `beneficiary_bank_account_no`         | string       | ✓              | ✗                | เลขที่บัญชีปลายทาง                                   |
+| `beneficiary_bank_account_name`       | string       | ✓              | ✗                | ชื่อบัญชีปลายทาง                                     |
+| `beneficiary_bank_code`               | string       | ✓              | ✗                | รหัสธนาคารปลายทาง Code จาก [ตารางรหัสธนาคาร](#8-bank-code)           |
+| `timestamp`                           | string       | ✓              | ✗                | เวลาที่ทำรายการ (RFC3339)                            |
+
+#### คำอธิบายพารามิเตอร์การตอบกลับจาก API สำหรับการสร้าง Payout
+
+| พารามิเตอร์                           | ประเภทข้อมูล | จำเป็นต้องระบุ | อนุญาตให้ว่างได้ | คำอธิบาย                                            |
+| ------------------------------------- | ------------ | -------------- | ---------------- | --------------------------------------------------- |
+| `status_code`                         | number       | ✓              | ✗                | รหัสสถานะ HTTP                                      |
+| `message`                             | string       | ✓              | ✗                | ข้อความแสดงผลการทำงาน                               |
+| `data`                                | object       | ✓              | ✗                | ข้อมูลการทำรายการ                                    |
+| `data.payout_id`                      | string       | ✓              | ✗                | รหัสอ้างอิงการทำรายการ Payout                        |
+| `data.ref_id`                         | string       | ✓              | ✗                | รหัสอ้างอิงจากลูกค้า                                  |
+| `data.callback_url`                   | string       | ✓              | ✗                | URL สำหรับรับการแจ้งเตือนผลการทำรายการ               |
+| `data.trigger`                        | string       | ✓              | ✗                | ช่องทางการทำรายการ                                   |
+| `data.amount`                         | number       | ✓              | ✗                | จำนวนเงินที่ต้องการโอน                               |
+| `data.currency`                       | string       | ✓              | ✗                | สกุลเงิน                                             |
+| `data.beneficiary_bank_account_no`    | string       | ✓              | ✗                | เลขที่บัญชีปลายทาง                                   |
+| `data.beneficiary_bank_account_name`  | string       | ✓              | ✗                | ชื่อบัญชีปลายทาง                                     |
+| `data.beneficiary_bank_code`          | string       | ✓              | ✗                | รหัสธนาคารปลายทาง                                    |
+| `data.timestamp`                      | string       | ✓              | ✗                | เวลาที่ทำรายการ (RFC3339)                            |
+| `data.status`                         | string       | ✓              | ✗                | สถานะการทำรายการ (QUEUED, SUCCESS, FAILED)           |
+
+#### ตัวอย่างการเรียก API สำหรับการสร้าง Payout
+
+```bash
+curl --location 'http://localhost:4000/api/v1/payout' \
+--header 'x-cust-code: CUST001' \
+--header 'x-api-key: ak_test_123456789' \
+--header 'x-api-secret: as_test_987654321' \
+--header 'Content-Type: application/json' \
+--data '{
+    "callback_url": "https://payment.api.com/hook/callback",
+    "ref_id": "TEST-1234567890",
+    "trigger": "web manual",
+    "amount": 1000,
+    "currency": "THB",
+    "beneficiary_bank_account_no": "5557774445",
+    "beneficiary_bank_account_name": "ทดสอบ การโอนเงิน",
+    "beneficiary_bank_code": "025", 
+    "timestamp": "2025-02-28T16:23:00Z"
+}
+'
+```
+
+#### ตัวอย่างการตอบกลับ API สำหรับการสร้าง Payout
+
+```json
+{
+    "status_code": 201,
+    "message": "Created - [payout created successfully]",
+    "data": {
+        "payout_id": "9032993c-4661-4ab9-9381-c258346a9d68",
+        "ref_id": "TEST-1234567890", 
+        "callback_url": "https://payment.api.com/hook/callback",
+        "trigger": "web manual",
+        "amount": 1000,
+        "currency": "THB",
+        "beneficiary_bank_account_no": "5557774445",
+        "beneficiary_bank_account_name": "ทดสอบ การโอนเงิน",
+        "beneficiary_bank_code": "025",
+        "timestamp": "2025-02-28T16:23:00Z",
+        "status": "QUEUED"
+    }
+}
+
+```
+
+### 5.2 Callback ผลการทำรายการ Payout
+
+หากมีการทำรายการ Payout สำเร็จ จะมีการส่งข้อมูลกลับมาที่ URL ที่ระบุไว้ในพารามิเตอร์ `callback_url`
+
+#### ตัวอย่างการตอบกลับ Callback ผลการทำรายการ Payout
+
+```json
+{
+    "status_code": 200,
+    "message": "Success",
+    "data": {
+        "payout_id": "46010361-73bc-40a2-8583-615f5e44e6f4",
+        "ref_id": "TEST-1234567890",
+        "currency": "THB",
+        "description": "ทำรายการสำเร็จ",
+        "payout_date": "2025-02-28T16:23:00Z",
+        "payout_amount": 1000,
+        "beneficiary_bank_account": "5557774445",
+        "beneficiary_bank_code": "025",
+        "beneficiary_name": "ทดสอบ การโอนเงิน",
+        "request_timestamp": "2025-02-28T16:23:00Z"
+    }
+}
+```
+
+
 ---
 
-## 5. ติดต่อฝ่ายสนับสนุน
+## 6. ติดต่อฝ่ายสนับสนุน
 
 หากพบปัญหาในการใช้งาน API กรุณาติดต่อทีมสนับสนุนที่อีเมล <qrpayments.pgw@gmail.com>
 
-## 6. HTTP Status Code
+## 7. HTTP Status Code
 
 #### status code
 
@@ -560,45 +686,8 @@ curl -X GET http://{{SERVER_IP}}:{{SERVER_PORT}}/api/v1/customer \
 | `503` | Service Unavailable - [message from pgw]             |
 | `504` | Gateway Timeout - [message from pgw]                 |
 
-## 7. Bank code
+## 8. Bank code
 
 ### ดาวน์โหลดตาราง Bank Code
 
-[⬇️ ดาวน์โหลดตาราง Bank Code (CSV)](https://raw.githubusercontent.com/qrpayments/docs/main/bank_codes.csv)
-
-| bank_code | bank_name_th                                        | bank_name_en                                              |
-| --------- | --------------------------------------------------- | --------------------------------------------------------- |
-| 002       | ธนาคารกรุงเทพ จำกัด (มหาชน)                         | BANGKOK BANK PUBLIC COMPANY LIMITED                       |
-| 004       | ธนาคารกสิกรไทย จำกัด (มหาชน)                        | KASIKORNBANK PUBLIC COMPANY LIMITED                       |
-| 006       | ธนาคารกรุงไทย จำกัด (มหาชน)                         | KRUNG THAI BANK PUBLIC COMPANY LIMITED                    |
-| 008       | ธนาคารเจพีมอร์แกน เชส                               | JPMORGAN CHASE BANK, N.A.                                 |
-| 009       | ธนาคารโอเวอร์ซี-ไชนีสแบงกิ้งคอร์ปอเรชั่น จำกัด      | OVERSEA-CHINESE BANKING CORPORATION LIMITED               |
-| 011       | ธนาคารทหารไทยธนชาต จำกัด (มหาชน)                    | TMBTHANACHART BANK PUBLIC COMPANY LIMITED                 |
-| 014       | ธนาคารไทยพาณิชย์ จำกัด (มหาชน)                      | THE SIAM COMMERCIAL BANK PUBLIC COMPANY LIMITED           |
-| 017       | ธนาคารซิตี้แบงก์ เอ็น.เอ.                           | CITIBANK, N.A.                                            |
-| 018       | ธนาคารซูมิโตโม มิตซุย แบงกิ้ง คอร์ปอเรชั่น          | SUMITOMO MITSUI BANKING CORPORATION                       |
-| 020       | ธนาคารสแตนดาร์ดชาร์เตอร์ด (ไทย) จำกัด (มหาชน)       | STANDARD CHARTERED BANK (THAI) PUBLIC COMPANY LIMITED     |
-| 022       | ธนาคารซีไอเอ็มบี ไทย จำกัด (มหาชน)                  | CIMB THAI BANK PUBLIC COMPANY LIMITED                     |
-| 023       | ธนาคารอาร์ เอช บี จำกัด                             | RHB BANK BERHAD, THAILAND                                 |
-| 024       | ธนาคารยูโอบี จำกัด (มหาชน)                          | UNITED OVERSEAS BANK (THAI) PUBLIC COMPANY LIMITED        |
-| 025       | ธนาคารกรุงศรีอยุธยา จำกัด (มหาชน)                   | BANK OF AYUDHAYA PUBLIC COMPANY LIMITED                   |
-| 026       | ธนาคารเมกะ สากลพาณิชย์ จำกัด (มหาชน)                | MEGA INTERNATIONAL COMMERCIAL BANK PUBLIC COMPANY LIMITED |
-| 027       | ธนาคารแห่งอเมริกาเนชั่นแนลแอสโซซิเอชั่น             | BANK OF AMERICA NATIONAL ASSOCIATION                      |
-| 029       | ธนาคารอินเดียนโอเวอร์ซีส์                           | INDIAN OVERSEAS BANK                                      |
-| 030       | ธนาคารออมสิน                                        | GOVERNMENT SAVINGS BANK                                   |
-| 031       | ธนาคารฮ่องกงและเซี่ยงไฮ้แบงกิ้งคอร์ปอเรชั่น จำกัด   | THE HONGKONG AND SHANGHAI BANKING CORPORATION LIMITED     |
-| 032       | ธนาคารดอยซ์แบงก์                                    | DEUTSCHE BANK AG.                                         |
-| 033       | ธนาคารอาคารสงเคราะห์                                | GOVERNMENT HOUSTING BANK                                  |
-| 034       | ธนาคารเพื่อการเกษตรและสหกรณ์การเกษตร                | BANK FOR AGRICULTURE AND AGRICULTURAL COOPERATIVES        |
-| 035       | ธนาคารเพื่อการส่งออกและนำเข้าแห่งประเทศไทย          | EXPORT IMPORT BANK OF THAILAND                            |
-| 039       | ธนาคารมิซูโฮ จำกัด สาขากรุงเทพฯ                     | MIZUHO BANK, LTD. BANGKOK BRANCH                          |
-| 045       | ธนาคารบีเอ็นพี พารีบาส์                             | BNP PARIBAS BANGKOK BRANCH                                |
-| 052       | ธนาคารแห่งประเทศจีน (ไทย) จำกัด (มหาชน)             | BANK OF CHINA (THAI) PUBLIC COMPANY LIMITED               |
-| 066       | ธนาคารอิสลามแห่งประเทศไทย                           | ISLAMIC BANK OF THAILAND                                  |
-| 067       | ธนาคารทิสโก้ จำกัด (มหาชน)                          | TISCO BANK PUBLIC COMPANY LIMITED                         |
-| 069       | ธนาคารเกียรตินาคินภัทร จำกัด (มหาชน)                | KIATNAKIN PHATRA BANK PUBLIC COMPANY LIMITED              |
-| 070       | ธนาคารไอซีบีซี (ไทย) จำกัด (มหาชน)                  | INDUSTRIAL AND COMMERCIAL BANK OF CHINA (THAI) PCL.       |
-| 071       | ธนาคารไทยเครดิต จํากัด (มหาชน)                      | THAI CREDIT BANK PUBLIC COMPANY LIMITED                   |
-| 073       | ธนาคารแลนด์ แอนด์ เฮ้าส์ จำกัด (มหาชน)              | LAND AND HOUSES BANK PUBLIC COMPANY LIMITED               |
-| 080       | ธนาคารซูมิโตโม มิตซุย ทรัสต์ (ไทย) จำกัด (มหาชน)    | SUMITOMO MITSUI TRUST BANK (THAI) PUBLIC COMPANY LIMITED  |
-| 098       | ธนาคารพัฒนาวิสาหกิจขนาดกลางและขนาดย่อมแห่งประเทศไทย | SMALL AND MEDIUM ENTERPRISE DEVELOPMENT BANK OF THAILAND  |
+[⬇️ ดาวน์โหลดตาราง Bank Code (CSV)](http://raw.githubusercontent.com/qrpayments/docs/main/bank_codes.csv)
