@@ -452,8 +452,9 @@ curl -X POST http://{{SERVER_IP}}:{{SERVER_PORT}}/api/v1/payout \
 		"trigger": "web manual",
 		"amount": 1000,
 		"currency": "THB",
-		"beneficiary_bank_account_no": "5557774445",
-		"beneficiary_bank_account_name": "ทดสอบ การโอนเงิน",
+		"beneficiary_name": "ทดสอบ การโอนเงิน",
+		"beneficiary_mobile": "0891234567",
+		"beneficiary_bank_account": "5557774445",
 		"beneficiary_bank_code": "025",
 		"timestamp": "2025-02-28T16:23:00Z"
 	}
