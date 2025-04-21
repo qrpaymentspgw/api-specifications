@@ -74,7 +74,7 @@ URL: `/api/v1/payment`
 | `data.beneficiary_bank_code`    | string  | ✓      | ✗                | รหัสธนาคารผู้รับเงิน                                                                                                                               |
 | `data.beneficiary_name`         | string  | ✓      | ✗                | ชื่อผู้รับเงิน                                                                                                                                     |
 | `data.request_timestamp`        | string  | ✓      | ✗                | เวลาที่ทำรายการ (รูปแบบ ISO 8601)                                                                                                                  |
-| `data.payment_status`           | string  | ✓      | ✗                | สถานะการชำระเงิน​ <br/>(`PENDING` = รอดำเนินการ, `DONE` = สำเร็จ, `RECIEVED_BUT_NOT_MATCH` = ได้รับเงินแต่ไม่ตรงกับรายละเอียด, `FAILED` = ล้มเหลว) |
+| `data.payment_status`           | string  | ✓      | ✗                | สถานะการชำระเงิน​ <br/>(`PENDING` = รอดำเนินการ, `SUCCESS` = สำเร็จ, `RECIEVED_BUT_NOT_MATCH` = ได้รับเงินแต่ไม่ตรงกับรายละเอียด, `FAILED` = ล้มเหลว) |
 
 #### ตัวอย่างการใช้งาน API สำหรับการสร้าง QR Payment
 
@@ -270,7 +270,7 @@ URL: `{{HOOK_CALLBACK_URL}}`
 | `status_code`                   | number       | ✓              | ✗                | รหัสสถานะ HTTP                       |
 | `message`                       | string       | ✓              | ✗                | ข้อความแสดงผลการทำงาน                |
 | `data`                          | object       | ✓              | ✓                | ข้อมูลการชำระเงิน                    |
-| `data.payment_status`           | string       | ✓              | ✗                | สถานะการชำระเงิน (`DONE` = สำเร็จ)   |
+| `data.payment_status`           | string       | ✓              | ✗                | สถานะการชำระเงิน (`SUCCESS` = สำเร็จ)   |
 | `data.ref_id`                   | string       | ✓              | ✗                | รหัสอ้างอิงการชำระเงิน               |
 | `data.transaction_id`           | string       | ✓              | ✗                | รหัสธุรกรรม                          |
 | `data.amount`                   | number       | ✓              | ✗                | จำนวนเงินที่ต้องชำระ                 |
@@ -294,7 +294,7 @@ URL: `{{HOOK_CALLBACK_URL}}`
 	"status_code": 200,
 	"message": "OK (สำเร็จ) - [Success]",
 	"data": {
-		"payment_status": "DONE",
+		"payment_status": "SUCCESS",
 		"ref_id": "REF123457",
 		"transaction_id": "25021739274517180554000",
 		"amount": 10000,
@@ -435,7 +435,7 @@ curl -X GET http://{{SERVER_IP}}:{{SERVER_PORT}}/api/v1/merchants \
 | `data.beneficiary_bank_account` | string       | ✓              | ✗                | เลขที่บัญชีปลายทาง                     |
 | `data.beneficiary_bank_code`    | string       | ✓              | ✗                | รหัสธนาคารปลายทาง                      |
 | `data.request_timestamp`        | string       | ✓              | ✗                | เวลาที่ทำรายการ (RFC3339)              |
-| `data.payment_status`           | string       | ✓              | ✗                | สถานะการทำรายการ (QUEUE, DONE, FAILED) |
+| `data.payment_status`           | string       | ✓              | ✗                | สถานะการทำรายการ (QUEUE, SUCCESS, FAILED) |
 
 #### ตัวอย่างการเรียก API สำหรับการสร้าง Payout
 
@@ -516,7 +516,7 @@ URL: `{{HOOK_CALLBACK_PAYOUT_URL}}`
 	"status_code": 200,
 	"message": "Success",
 	"data": {
-		"payment_status": "DONE",
+		"payment_status": "SUCCESS",
 		"transaction_id": "67dab886c803f64e2db3b7a4",
 		"ref_id": "MERCH123456789",
 		"amount": 1000,
