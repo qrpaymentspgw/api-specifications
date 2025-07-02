@@ -186,7 +186,7 @@ URL: `/api/v1/payment/{{transaction_id}}`
 | data.amount_sign                            | string       | ✓              | ✗                | เครื่องหมายจำนวนเงิน (+ รับเงิน, - จ่ายเงิน)      |
 | data.amount                                 | number       | ✓              | ✗                | จำนวนเงิน                                         |
 | data.currency                               | string       | ✓              | ✗                | สกุลเงิน                                          |
-| data.status                                 | string       | ✓              | ✗                | สถานะการชำระเงิน (`PENDING`, `SUCCESS`)           |
+| data.status                                 | string       | ✓              | ✗                | สถานะการชำระเงิน (`PENDING`, `DONE`)           |
 | data.remark                                 | string       | ✓              | ✓                | หมายเหตุ                                          |
 | data.bank_trans_id                          | string       | ✓              | ✓                | รหัสอ้างอิงธุรกรรมจากธนาคาร (จะมีก็เมื่อ success) |
 | data.created_at                             | string       | ✓              | ✗                | เวลาที่สร้างรายการ (รูปแบบ ISO 8601)              |
@@ -321,86 +321,9 @@ URL: `{{HOOK_CALLBACK_URL}}`
 Method: `GET`<br/>
 URL: `{{SERVER_IP}}:{{SERVER_PORT}}/api/v1/merchants`
 
-#### คำอธิบายพารามิเตอร์การตอบกลับจาก API สำหรับการดึงข้อมูลลูกค้า
-
-| พารามิเตอร์             | ประเภทข้อมูล | จำเป็นต้องระบุ | อนุญาตให้ว่างได้ | คำอธิบาย                     |
-| ----------------------- | ------------ | -------------- | ---------------- | ---------------------------- |
-| `status_code`           | number       | ✓              | ✗                | รหัสสถานะ HTTP               |
-| `message`               | string       | ✓              | ✗                | ข้อความแสดงผลการทำงาน        |
-| `data`                  | object       | ✓              | ✓                | ข้อมูลลูกค้า                 |
-| `data.code`             | string       | ✓              | ✗                | รหัสลูกค้า                   |
-| `data.api_key`          | string       | ✓              | ✗                | คีย์สำหรับเรียกใช้ API       |
-| `data.api_secret`       | string       | ✓              | ✗                | รหัสลับสำหรับเรียกใช้ API    |
-| `data.display_name`     | string       | ✓              | ✗                | ชื่อลูกค้า                   |
-| `data.summary_balance`  | number       | ✓              | ✗                | ยอดเงินคงเหลือที่ใช้ได้      |
-| `data.callback`         | array        | ✓              | ✗                | รายการ callback              |
-| `data.callback.type`    | string       | ✓              | ✗                | ประเภทของ callback           |
-| `data.callback.url`     | string       | ✓              | ✗                | URL สำหรับ callback          |
-| `data.callback.method`  | string       | ✓              | ✗                | HTTP method สำหรับ callback  |
-| `data.callback.headers` | string       | ✓              | ✓                | HTTP headers สำหรับ callback |
-| `data.callback.body`    | string       | ✓              | ✓                | HTTP body สำหรับ callback    |
-
-#### ตัวอย่างการเรียก API สำหรับการดึงข้อมูลลูกค้า
-
-```bash
-curl -X GET http://{{SERVER_IP}}:{{SERVER_PORT}}/api/v1/merchants \
-     -H "Content-Type: application/json" \
-     -H "x-cust-code: {{CUST_CODE}}" \
-     -H "x-api-key: {{API_KEY}}" \
-     -H "x-api-secret: {{API_SECRET}}"
-```
-
-#### ตัวอย่างการตอบกลับ API สำหรับการดึงข้อมูลลูกค้า
-
-```json
-{
-	"status_code": 200,
-	"message": "merchant balance retrieved successfully",
-	"data": {
-		"code": "MPAY01",
-		"api_key": "api_key_123123123",
-		"api_secret": "api_secret_987123456",
-		"display_name": "MPAY Merchant",
-		"summary_balance": 198800.93,
-		"callback": [
-			{
-				"type": "payin_failed",
-				"url": "http://localhost:1880/api/payin_failed",
-				"method": "POST",
-				"headers": "",
-				"body": ""
-			},
-			{
-				"type": "payout_failed",
-				"url": "http://localhost:1880/api/payout_failed",
-				"method": "POST",
-				"headers": "",
-				"body": ""
-			}
-		]
-	}
-}
-```
+### กำลังปรัปรุง
 
 ## 5. API สำหรับ Payout
-
-### ธนาคารที่รองรับ
-
-| bank_code | bank_name_th                         | bank_name_en                                       |
-| --------- | ------------------------------------ | -------------------------------------------------- |
-| 014       | ธนาคารไทยพาณิชย์ จำกัด (มหาชน)       | THE SIAM COMMERCIAL BANK PUBLIC COMPANY LIMITED    |
-| 004       | ธนาคารกสิกรไทย จำกัด (มหาชน)         | KASIKORNBANK PUBLIC COMPANY LIMITED                |
-| 006       | ธนาคารกรุงไทย จำกัด (มหาชน)          | KRUNG THAI BANK PUBLIC COMPANY LIMITED             |
-| 002       | ธนาคารกรุงเทพ จำกัด (มหาชน)          | BANGKOK BANK PUBLIC COMPANY LIMITED                |
-| 011       | ธนาคารทหารไทยธนชาต จำกัด (มหาชน)     | TMBTHANACHART BANK PUBLIC COMPANY LIMITED          |
-| 030       | ธนาคารออมสิน                         | GOVERNMENT SAVINGS BANK                            |
-| 025       | ธนาคารกรุงศรีอยุธยา จำกัด (มหาชน)    | BANK OF AYUDHAYA PUBLIC COMPANY LIMITED            |
-| 034       | ธนาคารเพื่อการเกษตรและสหกรณ์การเกษตร | BANK FOR AGRICULTURE AND AGRICULTURAL COOPERATIVES |
-| 024       | ธนาคารยูโอบี จำกัด (มหาชน)           | UNITED OVERSEAS BANK (THAI) PUBLIC COMPANY LIMITED |
-| 033       | ธนาคารอาคารสงเคราะห์                 | GOVERNMENT HOUSTING BANK                           |
-| 022       | ธนาคารซีไอเอ็มบี ไทย จำกัด (มหาชน)   | CIMB THAI BANK PUBLIC COMPANY LIMITED              |
-
-หากมีอัพเดท จะแจ้งให้ทราบผ่านช่องทางติดต่อกัน
 
 ### 5.1 สร้าง Payout
 
